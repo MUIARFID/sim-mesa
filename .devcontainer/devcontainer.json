@@ -1,0 +1,32 @@
+{
+	"name": "mesa-devcontainer",
+	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/poetry:2":{
+			"version": "1.2.0"
+		}
+	},
+
+	// "forwardPorts": [],
+
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"peacock.remoteColor": "#346fa0",
+				"peacock.color": "#346fa0"
+			},
+			"extensions": [
+				"johnpapa.vscode-peacock",
+				"ExodiusStudios.comment-anchors",
+				"usernamehw.errorlens",
+				"GitHub.copilot",
+				"mutantdino.resourcemonitor",
+				"ms-toolsai.jupyter",
+				"ms-python.python"
+			]
+		}
+	},
+
+	"remoteUser": "root"
+}

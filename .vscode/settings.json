@@ -1,0 +1,11 @@
+{
+    "iis.configDir": "",
+    "workbench.colorCustomizations": {
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#4589c2",
+        "titleBar.activeBackground": "#346fa0",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#346fa099",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    }
+}
