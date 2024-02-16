@@ -24,7 +24,13 @@ class MoneyAgent(mesa.Agent):
 
     def give_money(self):
         if self.wealth == 0: return # No hay riqueza para dar
+        if self.wealth == 0: return # No hay riqueza para dar
         cellmates = self.model.grid.get_cell_list_contents([self.pos])
+        cellmates.pop(cellmates.index(self)) # No se puede dar a uno mismo
+        if not cellmates: return # No hay vecinos
+        other = self.random.choice(cellmates)
+        other.wealth += 1
+        self.wealth -= 1
         cellmates.pop(cellmates.index(self)) # No se puede dar a uno mismo
         if not cellmates: return # No hay vecinos
         other = self.random.choice(cellmates)
@@ -33,6 +39,7 @@ class MoneyAgent(mesa.Agent):
 
     def step(self):
         self.move()
+        self.give_money()
         self.give_money()
 
 
@@ -43,8 +50,11 @@ class MoneyModel(mesa.Model):
         self.grid = mesa.space.MultiGrid(width, height, True)
         self.schedule = mesa.time.RandomActivation(self)
 
+
         # Create agents
         for i in range(self.num_agents):
+            agent = MoneyAgent(i, self)
+            self.schedule.add(agent)
             agent = MoneyAgent(i, self)
             self.schedule.add(agent)
             # Add the agent to a random grid cell
@@ -55,7 +65,13 @@ class MoneyModel(mesa.Model):
         self.datacollector = mesa.DataCollector(
             model_reporters={"Gini": compute_gini}, agent_reporters={"Wealth": "wealth"}
         )
+            self.grid.place_agent(agent, (x, y))
+
+        self.datacollector = mesa.DataCollector(
+            model_reporters={"Gini": compute_gini}, agent_reporters={"Wealth": "wealth"}
+        )
 
     def step(self):
+        self.datacollector.collect(self)
         self.datacollector.collect(self)
         self.schedule.step()
